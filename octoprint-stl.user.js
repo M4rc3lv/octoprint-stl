@@ -1,11 +1,16 @@
 // ==UserScript==
 // @name         OctoSTL
 // @description  Octoprint STL viewer   
-// @version      1
+// @version      1.1
 // @grant        GM.xmlHttpRequest
 // @include      http://octopi*
 // @require      https://marcelv.net/jquery-1.6.4.min.js
 // ==/UserScript==
+
+// Config
+var MAPJE = "/media/marcel/4TB/Proj/Wachtrij/";
+var MIJNPROJECTEN = "http://localhost:8072/";
+// Einde config
 
 STOP=false;
 setTimeout(Go,800); 
@@ -17,7 +22,7 @@ function Go2() {
  $(".w3-image").each(function(){
   var src=$(this).attr("src");
   if(src.startsWith("Db")) {
-   $(this).attr("src","http://localhost:8072/"+src);
+   $(this).attr("src",MIJNPROJECTEN+src);
    $(this).attr("style","float:left;width:80px");
    STOP2=true;
   }
@@ -34,11 +39,11 @@ function Go() {
 
    var gcodefile = $(this).find(".title").text();   
    var fname=gcodefile.substring(gcodefile.lastIndexOf('/')+1, gcodefile.lastIndexOf('.'));   
-   var STL="/media/marcel/4TB/ff/"+fname.substring(0,fname.indexOf('_')) + ".stl";   
+   var STL=MAPJE+fname.substring(0,fname.indexOf('_')) + ".stl";   
    GM.xmlHttpRequest({
     method: "GET",
     context: $(this).attr("id"),
-    url: "http://localhost:8072/Ashx/Stl.ashx?name="+encodeURI(STL),
+    url: MIJNPROJECTEN+"Ashx/Stl.ashx?name="+encodeURI(STL),
     onload: function (R) {
      var resp = R.responseText;
      console.log(resp);        
